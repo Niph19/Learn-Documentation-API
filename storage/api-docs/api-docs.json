@@ -1,0 +1,109 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Dokumentasi API",
+        "description": "This is the API documentation for the application.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Local server"
+        }
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "summary": "Login user",
+                "description": "Endpoint untuk user login.",
+                "operationId": "2b57193c8e535e73bbdd7e4476a9321e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "description": "Alamat email user",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Password user",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User berhasil login"
+                    },
+                    "422": {
+                        "description": "Login gagal, email atau password salah."
+                    }
+                }
+            }
+        },
+        "/register": {
+            "post": {
+                "summary": "Registrasi User baru",
+                "description": "Endpoint untuk register user baru.",
+                "operationId": "3c12ec58df2b0cab255444cbb7ad39d3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "description": "Nama lengkap user",
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "description": "Alamat email user",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "Password user",
+                                        "type": "string",
+                                        "format": "password"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Konfirmasi password user",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User berhasil registrasi"
+                    },
+                    "422": {
+                        "description": "Validasi gagal, data tidak valid"
+                    }
+                }
+            }
+        }
+    }
+}

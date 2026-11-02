@@ -5,11 +5,39 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\User;
-use Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use OpenApi\Attributes as OA;
+
+#[OA\Post(
+    path: '/login',
+    description: 'Endpoint untuk user login.',
+    summary: 'Login user',
+    requestBody: new OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['email', 'password'],
+            properties: [
+                new OA\Property(property: 'email', type: 'string', format: 'email', description: 'Alamat email user'),
+                new OA\Property(property: 'password', type: 'string', format: 'password', description: 'Password user'),
+            ],
+        ),
+    ),
+    responses : [(
+        new OA\Response(
+        response: 201,
+        description: 'User berhasil login',
+        )
+    ),
+    new OA\Response(
+        response: 422,
+        description: 'Login gagal, email atau password salah.',
+    ),
+    ],
+)]
 
 class AuthenticatedSessionController extends Controller
 {

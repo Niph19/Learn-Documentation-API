@@ -12,6 +12,36 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
+use OpenApi\Attributes as OA;
+
+#[OA\Post(
+    path: '/register',
+    description: 'Endpoint untuk register user baru.',
+    summary: 'Registrasi User baru',
+    requestBody: new OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['name', 'email', 'password', 'password_confirmation'],
+            properties: [
+                new OA\Property(property: 'name', type: 'string', description: 'Nama lengkap user'),
+                new OA\Property(property: 'email', type: 'string', format: 'email', description: 'Alamat email user'),
+                new OA\Property(property: 'password', type: 'string', format: 'password', description: 'Password user'),
+                new OA\Property(property: 'password_confirmation', type: 'string', format: 'password', description: 'Konfirmasi password user'),
+            ],
+        ),
+    ),
+    responses : [(
+        new OA\Response(
+        response: 201,
+        description: 'User berhasil registrasi',
+        )
+    ),
+    new OA\Response(
+        response: 422,
+        description: 'Validasi gagal, data tidak valid',
+    ),
+    ],
+)]
 
 class RegisteredUserController extends Controller
 {
@@ -24,7 +54,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
